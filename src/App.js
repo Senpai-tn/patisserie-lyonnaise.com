@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import SignIn from './Pages/SignIn'
+import Dashboard from './Pages/Dashboard'
 
-function App() {
+const App = () => {
+  const user = useSelector((state) => state.user)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      {user !== null ? (
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/categories" element={<Dashboard />} />
+          <Route path="/produits" element={<Dashboard />} />
+          <Route path="/fabrication" element={<Dashboard />} />
+          <Route path="*" element={<p>404 NotFound</p>} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="*" element={<SignIn />} />
+        </Routes>
+      )}
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
