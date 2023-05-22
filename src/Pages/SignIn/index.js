@@ -10,11 +10,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Footer from '../../Components/Footer'
-import { auth } from '../../firebase'
+import { auth, db } from '../../firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
 import actionsList from '../../Redux/actions'
 import { useNavigate } from 'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
 
 export default function SignIn() {
   const [checked, setChecked] = React.useState(true)
@@ -25,12 +26,16 @@ export default function SignIn() {
     const data = new FormData(event.currentTarget)
 
     signInWithEmailAndPassword(auth, data.get('email'), data.get('password'))
-      .then((value) => {
-        dispatch({ type: actionsList.auth, user: value.user })
-        if (checked) {
-          localStorage.setItem('user', JSON.stringify(value.user))
-        }
-        navigate('/')
+      .then(async (value) => {
+        const docRef = doc(db, 'Users', value.user.uid)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.data()) {
+          dispatch({ type: actionsList.auth, user: docSnap.data() })
+          if (checked) {
+            localStorage.setItem('user', JSON.stringify(docSnap.data()))
+          }
+          navigate('/')
+        } else alert('user not found')
       })
       .catch((error) => {
         if (error.code === 'auth/wrong-password') alert('wrong-password')

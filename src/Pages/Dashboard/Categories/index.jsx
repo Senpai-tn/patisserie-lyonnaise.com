@@ -1,4 +1,10 @@
-import { Backdrop, Button, CircularProgress, Typography } from '@mui/material'
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material'
 import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { db } from '../../../firebase'
@@ -53,7 +59,7 @@ const Categories = () => {
         const docSnap = await getDoc(docRef)
         setDoc(docRef, {
           ...docSnap.data(),
-          deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+          deletedAt: restore ? null : dayjs().unix() + '',
         })
           .then(() => {
             setRowSelectionModel([])
@@ -62,7 +68,7 @@ const Categories = () => {
                 return p.id === category.id
                   ? {
                       ...category,
-                      deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+                      deletedAt: restore ? null : dayjs().unix() + '',
                     }
                   : p
               })
@@ -89,7 +95,7 @@ const Categories = () => {
         const docSnap = await getDoc(docRef)
         setDoc(docRef, {
           ...docSnap.data(),
-          deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+          deletedAt: restore ? null : dayjs().unix() + '',
         })
           .then(() => {
             setTimeout(() => {
@@ -99,9 +105,7 @@ const Categories = () => {
                   return categories.includes(p.id)
                     ? {
                         ...p,
-                        deletedAt: restore
-                          ? null
-                          : dayjs().format('DD-MM-YYYY'),
+                        deletedAt: restore ? null : dayjs().unix() + '',
                       }
                     : p
                 })
@@ -119,7 +123,7 @@ const Categories = () => {
     })
   }
   return (
-    <>
+    <Stack p={'20px 50px'}>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={categoryList.length === 0}
@@ -136,8 +140,8 @@ const Categories = () => {
         categoryList={categoryList}
         setCategoryList={setCategoryList}
       />
-      {/* {user.role === 'admin' && ( */}
-      <>
+
+      <Stack direction={'row'} spacing={2}>
         <Button
           onClick={() => {
             setType('add')
@@ -175,8 +179,7 @@ const Categories = () => {
             ? 'Restorer les catégories'
             : 'Supprimer les catégories sélectionnées'}
         </Button>
-      </>
-      {/* )} */}
+      </Stack>
 
       <ListCategories
         onEdit={onEdit}
@@ -185,7 +188,7 @@ const Categories = () => {
         setRowSelectionModel={setRowSelectionModel}
         rows={categoryList}
       />
-    </>
+    </Stack>
   )
 }
 

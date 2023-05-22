@@ -25,14 +25,9 @@ const ListCommandesPerProduct = ({ commandeList }) => {
   React.useEffect(() => {
     var nbCommande = {}
     commandeList.map((c) => {
-      console.log(
-        'c.date',
-        dayjs(c.date).format('MM-DD-YYYY'),
-        dayjs(watch('date')).format('DD-MM-YYYY')
-      )
       return (
-        dayjs(c.date).format('MM-DD-YYYY') ===
-          watch('date').format('DD-MM-YYYY') &&
+        dayjs.unix(parseInt(c.date)).format('DD-MM-YYYY') ===
+          dayjs(watch('date')).format('DD-MM-YYYY') &&
         c.list.map((item) => {
           return nbCommande[item.name]
             ? (nbCommande[item.name] += item.itemsToSold)
@@ -40,9 +35,9 @@ const ListCommandesPerProduct = ({ commandeList }) => {
         })
       )
     })
-    console.log(nbCommande)
+
     setNbCommandeProduct(nbCommande)
-  }, [watch('date')])
+  }, [watch('date'), commandeList])
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ width: '100%' }}>
@@ -99,13 +94,13 @@ const ListCommandesPerProduct = ({ commandeList }) => {
                   </TableCell>
                 </TableHead>
                 <TableBody>
-                  {Object.entries(nbCommandeProduct).map((item) => {
+                  {Object.entries(nbCommandeProduct).map((item, index) => {
                     return (
                       <TableRow
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={item[0]}
+                        key={index}
                         sx={{ cursor: 'pointer' }}
                       >
                         <TableCell> {item[0]}</TableCell>

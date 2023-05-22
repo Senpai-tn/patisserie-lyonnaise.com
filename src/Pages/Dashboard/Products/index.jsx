@@ -63,7 +63,7 @@ const Products = () => {
         const docSnap = await getDoc(docRef)
         setDoc(docRef, {
           ...docSnap.data(),
-          deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+          deletedAt: restore ? null : dayjs().unix() + '',
         })
           .then(() => {
             setRowSelectionModel([])
@@ -72,7 +72,7 @@ const Products = () => {
                 return p.id === product.id
                   ? {
                       ...product,
-                      deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+                      deletedAt: restore ? null : dayjs().unix() + '',
                     }
                   : p
               })
@@ -99,7 +99,7 @@ const Products = () => {
         const docSnap = await getDoc(docRef)
         setDoc(docRef, {
           ...docSnap.data(),
-          deletedAt: restore ? null : dayjs().format('DD-MM-YYYY'),
+          deletedAt: restore ? null : dayjs().unix() + '',
         })
           .then(() => {
             setTimeout(() => {
@@ -109,9 +109,7 @@ const Products = () => {
                   return products.includes(p.id)
                     ? {
                         ...p,
-                        deletedAt: restore
-                          ? null
-                          : dayjs().format('DD-MM-YYYY'),
+                        deletedAt: restore ? null : dayjs().unix() + '',
                       }
                     : p
                 })
@@ -147,7 +145,7 @@ const Products = () => {
         productList={productList}
         setProductList={setProductList}
       />
-      {/* {user.role === 'admin' && ( */}
+
       <Stack direction={'row'} spacing={2}>
         <Button
           onClick={() => {

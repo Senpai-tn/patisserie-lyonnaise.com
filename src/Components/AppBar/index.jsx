@@ -17,10 +17,10 @@ import { useNavigate } from 'react-router-dom'
 import actionsList from '../../Redux/actions'
 
 const pages = [
-  { text: 'Commandes', link: '/' },
-  { text: 'Produits', link: '/produits' },
-  { text: 'Catégories', link: '/categories' },
-  { text: 'Fabrication', link: '/fabrication' },
+  { text: 'Commandes', link: '/', role: ['f', 'ad'] },
+  { text: 'Produits', link: '/produits', role: ['ad'] },
+  { text: 'Catégories', link: '/categories', role: ['ad'] },
+  { text: 'Fabrication', link: '/fabrication', role: ['pa', 'ad'] },
 ]
 const settings = [{ text: 'Déconnecter', link: '/logout' }]
 
@@ -86,17 +86,34 @@ function AppBarComp() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={() => {
-                    handleCloseNavMenu()
-                    navigate(page.link)
-                  }}
-                >
-                  <Typography textAlign="center">{page.text}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map(
+                (page) =>
+                  user &&
+                  (user.email === 'khaledd.sahli@gmail.com' ? (
+                    <MenuItem
+                      key={page}
+                      onClick={() => {
+                        handleCloseNavMenu()
+                        navigate(page.link)
+                      }}
+                    >
+                      <Typography textAlign="center">{page.text}</Typography>
+                    </MenuItem>
+                  ) : user.email === 'patisier@gmail.com' &&
+                    page.role.includes('pa') ? (
+                    <MenuItem
+                      key={page}
+                      onClick={() => {
+                        handleCloseNavMenu()
+                        navigate(page.link)
+                      }}
+                    >
+                      <Typography textAlign="center">
+                        {page.text} {page.role}
+                      </Typography>
+                    </MenuItem>
+                  ) : null)
+              )}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -119,24 +136,43 @@ function AppBarComp() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.text}
-                onClick={() => {
-                  handleCloseNavMenu()
-                  navigate(page.link)
-                }}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.text}
-              </Button>
-            ))}
+            {pages.map(
+              (page) =>
+                user &&
+                (user.email === 'khaledd.sahli@gmail.com' ? (
+                  <Button
+                    key={page.text}
+                    onClick={() => {
+                      handleCloseNavMenu()
+                      navigate(page.link)
+                    }}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.text}
+                  </Button>
+                ) : user.email === 'patisier@gmail.com' &&
+                  page.role.includes('pa') ? (
+                  <Button
+                    key={page.text}
+                    onClick={() => {
+                      handleCloseNavMenu()
+                      navigate(page.link)
+                    }}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.text}
+                  </Button>
+                ) : null)
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user.email} src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={user ? user.email : ''}
+                  src="/static/images/avatar/2.jpg"
+                />
               </IconButton>
             </Tooltip>
             <Menu

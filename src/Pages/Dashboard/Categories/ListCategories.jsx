@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { Button, Stack } from '@mui/material'
+import dayjs from 'dayjs'
 
 export default function ListCategories({
   rows,
@@ -16,7 +17,16 @@ export default function ListCategories({
       headerName: 'Nom',
       width: 400,
     },
-    { field: 'deletedAt', headerName: 'Supprimé', width: 400 },
+    {
+      field: 'deletedAt',
+      headerName: 'Supprimé',
+      width: 400,
+      renderCell: (params) => {
+        return params.row.deletedAt
+          ? dayjs.unix(params.row.deletedAt).format('HH:mm DD-MM-YYYY')
+          : null
+      },
+    },
     {
       field: 'actions',
       headerName: 'Actions',
