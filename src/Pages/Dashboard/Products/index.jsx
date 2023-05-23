@@ -14,6 +14,8 @@ const Products = () => {
   const [open, setOpen] = useState(false)
   const [type, setType] = useState('add')
   const [rowSelectionModel, setRowSelectionModel] = useState([])
+  const [loading, setLoading] = useState(true)
+
   const user = useSelector((state) => state.user)
 
   const getProducts = async () => {
@@ -32,6 +34,7 @@ const Products = () => {
         } else return { id: p.id, ...p.data() }
       })
     )
+    setLoading(false)
     setProductList(x)
   }
 
@@ -131,7 +134,7 @@ const Products = () => {
     <Stack p={'20px 50px'}>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={productList.length === 0}
+        open={loading}
       >
         <CircularProgress color="success" />
       </Backdrop>

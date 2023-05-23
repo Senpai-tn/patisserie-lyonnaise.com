@@ -31,7 +31,7 @@ const Navigation = () => {
             <Route path="*" element={<p>404 NotFound</p>} />
           </Routes>
         ) : (
-          user.role === 'fo' && (
+          user.role === 'li' && (
             <Routes>
               <Route path="/" element={<Commandes />} />
               <Route path="*" element={<Commandes />} />

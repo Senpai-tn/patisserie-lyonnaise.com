@@ -18,12 +18,14 @@ const Categories = () => {
   const [categoryList, setCategoryList] = useState([])
   const [category, setCategory] = useState({})
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [type, setType] = useState('add')
   const [rowSelectionModel, setRowSelectionModel] = useState([])
   const user = useSelector((state) => state.user)
   const getCategories = async () => {
     //  get list of category
     const querySnapshots = await getDocs(collection(db, 'category'))
+    setLoading(false)
     setCategoryList(
       querySnapshots.docs.map((c) => {
         return { id: c.id, ...c.data() }
@@ -126,7 +128,7 @@ const Categories = () => {
     <Stack p={'20px 50px'}>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={categoryList.length === 0}
+        open={loading}
       >
         <CircularProgress color="success" />
       </Backdrop>

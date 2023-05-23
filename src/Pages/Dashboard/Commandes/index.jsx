@@ -9,6 +9,7 @@ const Commandes = () => {
   const [product, setProduct] = useState({})
   const [rowSelectionModel, setRowSelectionModel] = useState([])
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
   const getCommandes = async () => {
     //  get list of category
     const querySnapshots = await getDocs(collection(db, 'Commande'))
@@ -19,6 +20,7 @@ const Commandes = () => {
       })
     )
     setProductList(x)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const Commandes = () => {
     <>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={productList.length === 0}
+        open={loading}
       >
         <CircularProgress color="success" />
       </Backdrop>

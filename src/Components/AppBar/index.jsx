@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import actionsList from '../../Redux/actions'
 
 const pages = [
-  { text: 'Commandes', link: '/', role: ['f', 'ad'] },
+  { text: 'Commandes', link: '/', role: ['li', 'ad'] },
   { text: 'Produits', link: '/produits', role: ['ad'] },
   { text: 'Catégories', link: '/categories', role: ['ad'] },
   { text: 'Fabrication', link: '/fabrication', role: ['pa', 'ad'] },
@@ -89,7 +89,7 @@ function AppBarComp() {
               {pages.map(
                 (page) =>
                   user &&
-                  (user.email === 'khaledd.sahli@gmail.com' ? (
+                  (user.role === 'ad' ? (
                     <MenuItem
                       key={page}
                       onClick={() => {
@@ -99,8 +99,7 @@ function AppBarComp() {
                     >
                       <Typography textAlign="center">{page.text}</Typography>
                     </MenuItem>
-                  ) : user.email === 'patisier@gmail.com' &&
-                    page.role.includes('pa') ? (
+                  ) : user.role === 'pa' && page.role.includes('pa') ? (
                     <MenuItem
                       key={page}
                       onClick={() => {
@@ -112,7 +111,22 @@ function AppBarComp() {
                         {page.text} {page.role}
                       </Typography>
                     </MenuItem>
-                  ) : null)
+                  ) : (
+                    user.role === 'li' &&
+                    page.role.includes('li') && (
+                      <MenuItem
+                        key={page}
+                        onClick={() => {
+                          handleCloseNavMenu()
+                          navigate(page.link)
+                        }}
+                      >
+                        <Typography textAlign="center">
+                          {page.text} {page.role}
+                        </Typography>
+                      </MenuItem>
+                    )
+                  ))
               )}
             </Menu>
           </Box>
@@ -139,7 +153,7 @@ function AppBarComp() {
             {pages.map(
               (page) =>
                 user &&
-                (user.email === 'khaledd.sahli@gmail.com' ? (
+                (user.role === 'ad' ? (
                   <Button
                     key={page.text}
                     onClick={() => {
@@ -150,8 +164,7 @@ function AppBarComp() {
                   >
                     {page.text}
                   </Button>
-                ) : user.email === 'patisier@gmail.com' &&
-                  page.role.includes('pa') ? (
+                ) : user.role === 'pa' && page.role.includes('pa') ? (
                   <Button
                     key={page.text}
                     onClick={() => {
@@ -162,7 +175,21 @@ function AppBarComp() {
                   >
                     {page.text}
                   </Button>
-                ) : null)
+                ) : (
+                  user.role === 'li' &&
+                  page.role.includes('li') && (
+                    <Button
+                      key={page.text}
+                      onClick={() => {
+                        handleCloseNavMenu()
+                        navigate(page.link)
+                      }}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {page.text}
+                    </Button>
+                  )
+                ))
             )}
           </Box>
 

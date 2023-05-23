@@ -6,6 +6,7 @@ import ListCommandesPerProduct from './ListCommandesPerProduct'
 
 const Fabrication = () => {
   const [commandeList, setCommandeList] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const getCommandes = async () => {
     //  get list of category
@@ -15,6 +16,7 @@ const Fabrication = () => {
         return { id: c.id, ...c.data() }
       })
     )
+    setLoading(false)
     setCommandeList(x)
   }
 
@@ -26,7 +28,7 @@ const Fabrication = () => {
     <>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={commandeList.length === 0}
+        open={loading}
       >
         <CircularProgress color="success" />
       </Backdrop>

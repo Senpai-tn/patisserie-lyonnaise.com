@@ -40,18 +40,24 @@ export default function CategoryForm({
         name: data.name,
       }
       const docRef = await addDoc(collectionRef, payload)
+      console.log({
+        id: docRef.id,
+        data: () => {
+          return {
+            name: data.name,
+            deletedAt: '',
+          }
+        },
+      })
       setCategoryList([
         ...categoryList,
         {
           id: docRef.id,
-          data: () => {
-            return {
-              name: data.name,
-              deletedAt: '',
-            }
-          },
+          name: data.name,
+          deletedAt: '',
         },
       ])
+      handleClose()
     } else {
       const docRef = doc(db, 'category', category.id)
       const docSnap = await getDoc(docRef)
