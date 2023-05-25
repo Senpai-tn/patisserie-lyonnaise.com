@@ -22,7 +22,10 @@ const pages = [
   { text: 'Catégories', link: '/categories', role: ['ad'] },
   { text: 'Fabrication', link: '/fabrication', role: ['pa', 'ad'] },
 ]
-const settings = [{ text: 'Déconnecter', link: '/logout' }]
+const settings = [
+  { text: 'Modifier Profil', link: '/profil' },
+  { text: 'Déconnecter', link: '/logout' },
+]
 
 function AppBarComp() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
@@ -226,7 +229,7 @@ function AppBarComp() {
                       if (setting.link === '/logout') {
                         localStorage.setItem('user', null)
                         dispatch({ type: actionsList.auth, user: null })
-                      }
+                      } else navigate(setting.link)
                     }}
                   >
                     {setting.text}

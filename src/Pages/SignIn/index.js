@@ -16,9 +16,13 @@ import { useDispatch } from 'react-redux'
 import actionsList from '../../Redux/actions'
 import { useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
+import { triggerResetEmail } from '../../utils/reinitPassword'
+import MailLockIcon from '@mui/icons-material/MailLock'
+import { Stack } from '@mui/material'
 
 export default function SignIn() {
   const [checked, setChecked] = React.useState(true)
+  const [email, setEmail] = React.useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleSubmit = (event) => {
@@ -30,9 +34,15 @@ export default function SignIn() {
         const docRef = doc(db, 'Users', value.user.uid)
         const docSnap = await getDoc(docRef)
         if (docSnap.data()) {
-          dispatch({ type: actionsList.auth, user: docSnap.data() })
+          dispatch({
+            type: actionsList.auth,
+            user: { id: docSnap.id, ...docSnap.data() },
+          })
           if (checked) {
-            localStorage.setItem('user', JSON.stringify(docSnap.data()))
+            localStorage.setItem(
+              'user',
+              JSON.stringify({ id: docSnap.id, ...docSnap.data() })
+            )
           }
           navigate('/')
         } else alert('user not found')
@@ -66,6 +76,9 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
+            onChange={(e) => {
+              setEmail(e.target.value)
+            }}
             id="email"
             label="Email Address"
             name="email"
@@ -105,6 +118,29 @@ export default function SignIn() {
           </Button>
         </Box>
       </Box>
+      <Stack
+        direction={'row'}
+        marginTop={'30px'}
+        alignItems={'center'}
+        spacing={0.5}
+        color={'#1976d2'}
+      >
+        <MailLockIcon
+          fontSize="large"
+          sx={{ cursor: 'pointer' }}
+          onClick={() => {
+            triggerResetEmail(email)
+          }}
+        />
+        <Typography
+          sx={{ cursor: 'pointer' }}
+          onClick={() => {
+            triggerResetEmail(email)
+          }}
+        >
+          Réinitialiser mot de passe
+        </Typography>
+      </Stack>
       <Footer sx={{ mt: 8, mb: 4 }} />
     </Container>
   )
