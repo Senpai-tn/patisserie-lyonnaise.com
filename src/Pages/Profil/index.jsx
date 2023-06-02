@@ -60,6 +60,7 @@ const Profil = () => {
                 value={value}
                 onChange={onChange}
                 disabled={formDisabled}
+                label={'Adresse'}
               />
             )}
           />

@@ -191,8 +191,8 @@ export default function ListCommandes({ rows }) {
           <TableRow>
             <TableCell />
             <TableCell>Nom du société</TableCell>
-            <TableCell align="left">Address</TableCell>
-            <TableCell align="left">Phone</TableCell>
+            <TableCell align="left">Adresse</TableCell>
+            <TableCell align="left">Num Téléphone</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Date</TableCell>
             <TableCell align="left">Montant</TableCell>

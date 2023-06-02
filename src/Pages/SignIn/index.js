@@ -69,7 +69,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Se Connecter
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -80,7 +80,7 @@ export default function SignIn() {
               setEmail(e.target.value)
             }}
             id="email"
-            label="Email Address"
+            label="Adresse Email"
             name="email"
             autoComplete="email"
             autoFocus
@@ -90,7 +90,7 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Mot de passe"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -106,7 +106,7 @@ export default function SignIn() {
                 color="primary"
               />
             }
-            label="Remember me"
+            label="Enregistrer ma session"
           />
           <Button
             type="submit"
@@ -114,7 +114,7 @@ export default function SignIn() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Se Connecter
           </Button>
         </Box>
       </Box>
